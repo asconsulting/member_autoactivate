@@ -3,22 +3,27 @@
 /**
  * Member Auto-Activate
  *
- * Copyright (C) 2018 Andrew Stevens Consulting
+ * Copyright (C) 2018-2022 Andrew Stevens Consulting
  *
  * @package    asconsulting/member_autoactivate
  * @link       https://andrewstevens.consulting
  */
 
- 
-namespace Asc;
 
-class AutoActivate extends \Frontend
+
+namespace AutoActivate;
+
+use Contao\Frontend;
+use Contao\MemberModel;
+
+
+class AutoActivate extends Frontend
 {
-	
+
 	public function autoActivate($intId, $arrData, $objModule)
 	{
 		$boolActivate = FALSE;
-		
+
 		if ($objModule->reg_autoActivate) {
 			if ($objModule->reg_autoActivateDomains != '') {
 				list($emailUser, $emailDomain) = explode("@", $arrData['email']);
@@ -32,9 +37,9 @@ class AutoActivate extends \Frontend
 				$boolActivate = TRUE;
 			}
 		}
-		
+
 		if ($boolActivate) {
-			$objMember = \MemberModel::findByIdOrAlias($intId);
+			$objMember = MemberModel::findByIdOrAlias($intId);
 			// Update the account
 			$objMember->disable = '';
 			$objMember->activation = '';
@@ -49,9 +54,7 @@ class AutoActivate extends \Frontend
 					$this->{$callback[0]}->{$callback[1]}($objMember, $this);
 				}
 			}
-
 		}
-		
 	}
-	
+
 }

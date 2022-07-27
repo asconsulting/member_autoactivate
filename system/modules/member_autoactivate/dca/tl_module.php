@@ -3,22 +3,25 @@
 /**
  * Member Auto-Activate
  *
- * Copyright (C) 2018 Andrew Stevens Consulting
+ * Copyright (C) 2018-2022 Andrew Stevens Consulting
  *
  * @package    asconsulting/member_autoactivate
  * @link       https://andrewstevens.consulting
  */
 
 
+
 /**
- * Table tl_module
+ * Palettes
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'reg_autoActivate';
-
-$GLOBALS['TL_DCA']['tl_module']['palettes']['registration']	= str_replace('reg_allowLogin', 'reg_allowLogin,reg_autoActivate', $GLOBALS['TL_DCA']['tl_module']['palettes']['registration']);	
-
+$GLOBALS['TL_DCA']['tl_module']['palettes']['registration']	= str_replace('reg_allowLogin', 'reg_allowLogin,reg_autoActivate', $GLOBALS['TL_DCA']['tl_module']['palettes']['registration']);
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['reg_autoActivate'] = 'reg_autoActivateDomains';
 
+
+/**
+ * Fields
+ */
 $GLOBALS['TL_DCA']['tl_module']['fields']['reg_autoActivate'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_module']['reg_autoActivate'],
