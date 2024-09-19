@@ -16,7 +16,6 @@
  */
 $GLOBALS['TL_DCA']['tl_module']['palettes']['__selector__'][] = 'reg_autoActivate';
 $GLOBALS['TL_DCA']['tl_module']['palettes']['registration']	= str_replace('reg_allowLogin', 'reg_allowLogin,reg_autoActivate', $GLOBALS['TL_DCA']['tl_module']['palettes']['registration']);
-$GLOBALS['TL_DCA']['tl_module']['palettes']['ssa_account_registration']	= str_replace('reg_allowLogin', 'reg_allowLogin,reg_autoActivate', $GLOBALS['TL_DCA']['tl_module']['palettes']['registration']);
 $GLOBALS['TL_DCA']['tl_module']['subpalettes']['reg_autoActivate'] = 'reg_autoActivateDomains';
 
 
