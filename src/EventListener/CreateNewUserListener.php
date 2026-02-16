@@ -3,26 +3,26 @@
 /**
  * Member Auto-Activate
  *
- * Copyright (C) 2018-2022 Andrew Stevens Consulting
+ * Copyright (C) 2018-2026 Andrew Stevens Consulting
  *
  * @package    asconsulting/member_autoactivate
  * @link       https://andrewstevens.consulting
  */
 
 
+namespace AutoActivate\EventListener;
 
-namespace AutoActivate;
-
-use Contao\Frontend;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\MemberModel;
+use Contao\Module;
+use Contao\System;
 
-
-class AutoActivate extends Frontend
+#[AsHook('createNewUser')]
+class CreateNewUserListener
 {
-
-	public function autoActivate($intId, $arrData, $objModule)
-	{
-		$boolActivate = FALSE;
+    public function __invoke(int $intId, array $arrData, Module $objModule): void
+    {
+ 		$boolActivate = FALSE;
 
 		if ($objModule->reg_autoActivate) {
 			if ($objModule->reg_autoActivateDomains != '') {
@@ -41,20 +41,19 @@ class AutoActivate extends Frontend
 		if ($boolActivate) {
 			$objMember = MemberModel::findByIdOrAlias($intId);
 			// Update the account
-			$objMember->disable = '';
-			$objMember->activation = '';
+			$objMember->disable = '0';
 			$objMember->save();
 
 			// HOOK: post activation callback
-			if (isset($GLOBALS['TL_HOOKS']['activateAccount']) && is_array($GLOBALS['TL_HOOKS']['activateAccount']))
+			if (isset($GLOBALS['TL_HOOKS']['activateAccount']) && \is_array($GLOBALS['TL_HOOKS']['activateAccount']))
 			{
 				foreach ($GLOBALS['TL_HOOKS']['activateAccount'] as $callback)
 				{
-					$this->import($callback[0]);
-					$this->{$callback[0]}->{$callback[1]}($objMember, $this);
+					System::importStatic($callback[0])->{$callback[1]}($objMember, $this);
 				}
 			}
-		}
-	}
 
+			System::getContainer()->get('monolog.logger.contao.access')->info('User account ID ' . $objMember->id . ' (' . Idna::decodeEmail($objMember->email) . ') has been auto-activated');
+		}
+    }
 }
