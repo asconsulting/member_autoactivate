@@ -49,7 +49,7 @@ class CreateNewUserListener
 			{
 				foreach ($GLOBALS['TL_HOOKS']['activateAccount'] as $callback)
 				{
-					System::importStatic($callback[0])->{$callback[1]}($objMember, $this);
+					System::importStatic($callback[0])->{$callback[1]}($objMember, $objModule);
 				}
 			}
 
