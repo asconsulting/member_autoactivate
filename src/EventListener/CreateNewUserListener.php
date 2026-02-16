@@ -13,6 +13,7 @@
 namespace AutoActivate\EventListener;
 
 use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
+use Contao\Idna;
 use Contao\MemberModel;
 use Contao\Module;
 use Contao\System;
